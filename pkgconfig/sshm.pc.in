@@ -1,0 +1,11 @@
+prefix=@PREFIX@
+exec_prefix=${prefix}
+libdir=@LIBDIR@
+includedir=@INCLUDEDIR@
+
+Name: sshm
+Description: Secure Shared Memory Toolkit (SSHM)
+Version: 1.0.0
+Libs: -L${libdir} -lsshm
+Libs.private: -lsodium -lpthread
+Cflags: -I${includedir}

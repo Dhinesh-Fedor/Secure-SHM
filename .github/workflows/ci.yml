@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:43
+    steps:
+      - name: Install dependencies (Fedora)
+        run: |
+          dnf -y update
+          dnf -y install \
+            git \
+            gcc \
+            make \
+            pkgconf-pkg-config \
+            libsodium-devel
+
+      - uses: actions/checkout@v4
+
+      - name: Build
+        run: make clean && make
+
+      - name: Test
+        run: make test

@@ -1,0 +1,26 @@
+[Unit]
+Description=SSHM_Daemon
+After=network.target
+
+[Service]
+Type=simple
+User=sshm
+Group=sshm
+RuntimeDirectory=sshm
+RuntimeDirectoryMode=0755
+Environment=SSHM_SOCKET_PATH=/run/sshm/sshm_daemon.sock
+Environment=SSHM_SOCKET_MODE=0666
+ExecStartPre=/bin/mkdir -p /var/log/sshm
+ExecStartPre=/bin/chown sshm:sshm /var/log/sshm
+ExecStartPre=/bin/chmod 0755 /var/log/sshm
+ExecStartPre=/usr/bin/install -o sshm -g sshm -m 0644 /dev/null /var/log/sshm/audit.log
+ExecStartPre=/usr/bin/install -o sshm -g sshm -m 0644 /dev/null /var/log/sshm/sshm.log
+ExecStart=/usr/local/bin/sshmd
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target
